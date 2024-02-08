@@ -2,12 +2,11 @@ package stream;
 
 import java.util.Arrays;
 import java.util.function.Consumer;
-import java.util.function.IntConsumer;
 import java.util.stream.DoubleStream;
 import java.util.stream.IntStream;
 import java.util.stream.Stream;
 
-public class Test1 {
+public class Test1_1 {
     public static void main(String[] args) {
 //        컬렉션에서 Iterator 반복자를 얻어내듯이 배열, 컬렉션 등 집합에서 Stream을 얻어낼 수 있다
 //        - java.util.Arrays - stream() 메서드
