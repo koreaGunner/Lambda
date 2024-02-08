@@ -1,7 +1,13 @@
 package stream;
 
+import java.util.Arrays;
+import java.util.List;
+import java.util.OptionalDouble;
+import java.util.stream.IntStream;
+import java.util.stream.Stream;
+
 public class Stream_Pipeline {
-    class Member {
+    static class Member {
         public static int MALE = 0;
         public static int FEMALE = 1;
 
@@ -47,7 +53,53 @@ public class Stream_Pipeline {
 
 //        대량의 데이터 중에서 우리가 관심있는 데이터만 조건에 걸어 데이터 량을 줄이고 계산(가공)하는 과정을
 //        리덕션(reduction)이라고 한다
+        List<Member> list = Arrays.asList(
+            new Member("사카", Member.MALE, 30),
+            new Member("마르티넬리", Member.MALE, 22),
+            new Member("윈터", Member.FEMALE, 21),
+            new Member("제주스", Member.MALE, 27)
+        );
+        
+        //변수에 대입
+        double averageAge =
+                        //a. 원본스트림 생성
+                        list.stream()
 
+                        //b. 새로운 스트림 생성 -> Male과 일치하는 값으로 필터링
+                        .filter(m -> m.getSex() == Member.MALE)
 
+                        //c. 새로운 스트림 생성 -> Member와 age  매핑하기
+                        .mapToInt(Member::getAge)
+
+                        //d. 평균값을 계산해서 OptionalDouble 객체에 저장
+                        .average()
+
+                        //e. 객체에 저장된 값 읽어들이기
+                        .getAsDouble();
+
+        System.out.println("남자 평균 나이 : " + averageAge);
+        
+        /* 위 코드 한줄씩 실행해보기 */
+        //필터링
+        Stream stream1 = list.stream()
+                            .filter(m -> m.getSex() == Member.MALE);
+        stream1.forEach(a -> System.out.println(a));
+
+        //필터링 + 매핑
+        IntStream stream2 = list.stream()
+                .filter(m -> m.getSex() == Member.MALE)
+                .mapToInt(Member::getAge);
+        stream2.forEach(a -> System.out.println(a));
+
+        //필터링 + 매핑 + 평균(OptionalDouble로 받기)
+        OptionalDouble optionalDouble = list.stream()
+                .filter(m -> m.getSex() == Member.MALE)
+                .mapToInt(Member::getAge)
+                .average();
+        System.out.println(optionalDouble);
+
+        //OptionalDouble에 있는 값 얻기
+        Double value = optionalDouble.getAsDouble();
+        System.out.println(value);
     }
 }
